@@ -10,7 +10,7 @@
         <relativePath />
     </parent>
     <groupId>org.exoplatform.addons.storage</groupId>
-    <artifactId>storage-api</artifactId>
+    <artifactId>storage-library</artifactId>
     <version>0.1.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Storage API</name>
@@ -26,10 +26,10 @@
         </developer>
     </developers>
     <modules>
-        <module>exo-storage-api-mongodb</module>
-        <module>exo-storage-api-core</module>
-        <module>exo-storage-api-connector</module>
-        <module>exo-storage-api-pkg</module>
+        <module>storage-library-mongodb</module>
+        <module>storage-library-core</module>
+        <module>storage-library-connector</module>
+        <module>storage-library-pkg</module>
     </modules>
     <scm>
         <connection>scm:git:git://github.com/kmenzli/storage-api.git</connection>
@@ -54,17 +54,17 @@
             <!-- Inner Persistence API -->
             <dependency>
                 <groupId>org.exoplatform.addons.storage</groupId>
-                <artifactId>exo-storage-api-mongodb</artifactId>
+                <artifactId>storage-library-mongodb</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.exoplatform.addons.storage</groupId>
-                <artifactId>exo-storage-api-core</artifactId>
+                <artifactId>storage-library-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.exoplatform.addons.storage</groupId>
-                <artifactId>exo-storage-api-connector</artifactId>
+                <artifactId>storage-library-connector</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <!-- FIN -->
