@@ -1,15 +1,13 @@
 package org.exoplatform.addons.storage.connector.rest;
 
-import org.exoplatform.addons.storage.exception.StatisticsException;
 import org.exoplatform.addons.storage.listener.GuiceManager;
 import org.exoplatform.addons.storage.model.StatisticsBean;
 import org.exoplatform.addons.storage.services.StatisticsService;
 import org.exoplatform.addons.storage.utils.RestUtils;
+import org.exoplatform.addons.storage.utils.StatisticUtils;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.log.Log;
 import org.exoplatform.services.rest.resource.ResourceContainer;
-import org.jdom.output.Format;
-import org.jdom.output.XMLOutputter;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.*;
@@ -18,12 +16,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.io.Writer;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-import org.jdom.Document;
-import java.io.FileWriter;
 
 /**
  * Created by menzli on 02/05/14.
@@ -52,14 +46,17 @@ public class StatisticsRestService implements ResourceContainer {
 
     }
 
-    @GET
+    @POST
     @Path("/cleanup")
+    @Consumes({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
     @RolesAllowed("administrators")
-    public Response cleanupStatistics(@Context UriInfo uriInfo) throws Exception {
+    public Response cleanupStatistics(@Context UriInfo uriInfo, String timestamp) throws Exception {
 
         try {
 
-            statisticsService.cleanupStatistics(0);
+            //--- Checking  the correct timestamp (0 or timestamp) only "yyyy-MM-dd HH:mm:ss.SSSSSS" is valid
+
+            statisticsService.cleanupStatistics(StatisticUtils.isTimeStampValid(timestamp));
 
         } catch (Exception E) {
 
@@ -67,28 +64,34 @@ public class StatisticsRestService implements ResourceContainer {
 
         }
 
-        return RestUtils.getResponse(mockStatistics, uriInfo, MediaType.APPLICATION_JSON_TYPE, Response.Status.OK);
+        //--- Returned result
+        return Response.ok("Statistics exported successfully")
+                .header("Content-Type", "text/html; charset=utf-8")
+                .build();
 
     }
 
 
+    /**
+     * Add statistics
+     * @param uriInfo
+     * @param statisticslist
+     * @return
+     * @throws Exception
+     */
     @POST
-    @Path("/add/")
+    @Path("/add")
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @RolesAllowed("users")
     public Response addEntry(@Context UriInfo uriInfo, List<StatisticsBean> statisticslist) throws Exception  {
-
-
 
         try {
 
             for (StatisticsBean statisticlist : statisticslist) {
 
-                statisticsService.addEntry(statisticlist);
+                statisticsService.insert(statisticlist);
 
             }
-
-
 
         } catch (Exception E) {
 
@@ -103,6 +106,19 @@ public class StatisticsRestService implements ResourceContainer {
     }
 
 
+    /**
+     *
+     * @param uriInfo
+     * @param criteria : criteria
+     * @param scope : scope fo the search
+     * @param offset
+     * @param limit
+     * @param sort
+     * @param order
+     * @param format
+     * @return
+     * @throws Exception
+     */
     @GET
     @Path("/query.{format}")
     @RolesAllowed("users")
@@ -123,8 +139,6 @@ public class StatisticsRestService implements ResourceContainer {
 
 
         try {
-
-
 
             //statisticBOs = statisticsService.query(criteria, scope, Integer.parseInt(offset), Integer.parseInt(limit), Integer.parseInt(sort), Integer.parseInt(order), 0);
 
@@ -198,13 +212,6 @@ public class StatisticsRestService implements ResourceContainer {
         return Response.ok("Statistics exported successfully")
                 .header("Content-Type", "text/html; charset=utf-8")
                 .build();
-    }
-
-    @GET
-    @Path("/query/.{format}")
-    @RolesAllowed("administrators")
-    public Response importStatistics() throws Exception {
-        throw new WebApplicationException(Response.Status.NOT_ACCEPTABLE);
     }
 
     @XmlRootElement

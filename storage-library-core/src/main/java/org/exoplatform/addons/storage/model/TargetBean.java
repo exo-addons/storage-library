@@ -8,17 +8,17 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(propOrder = { "objectType", "displayName", "actorBean"})
 public class TargetBean {
 
-    private String objectType = "";
+    private ObjectType objectType = ObjectType.PERSON;
 
     private String displayName = "";
 
     private ActorBean actorBean;
 
-    public String getObjectType() {
+    public ObjectType getObjectType() {
         return objectType;
     }
 
-    public void setObjectType(String objectType) {
+    public void setObjectType(ObjectType objectType) {
         this.objectType = objectType;
     }
 

@@ -8,15 +8,15 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(propOrder = { "objectType", "userName"})
 public class ActorBean {
 
-    private String objectType = "";
+    private ObjectType objectType = ObjectType.PERSON;
 
     private String userName = "";
 
-    public String getObjectType() {
+    public ObjectType getObjectType() {
         return objectType;
     }
 
-    public void setObjectType(String objectType) {
+    public void setObjectType(ObjectType objectType) {
         this.objectType = objectType;
     }
 

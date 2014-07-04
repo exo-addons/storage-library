@@ -35,11 +35,11 @@ public class StatisticsTestCase extends AbstractTestCase {
 
         /** Mock Objects*/
         actor1 = new ActorBean();
-        actor1.setObjectType("person");
+        actor1.setObjectType(ObjectType.PERSON);
         actor1.setUserName("kmenzli");
 
         actor2 = new ActorBean();
-        actor2.setObjectType("person");
+        actor2.setObjectType(ObjectType.PERSON);
         actor2.setUserName("bpaillereau");
 
         context = new ContextBean();
@@ -55,7 +55,7 @@ public class StatisticsTestCase extends AbstractTestCase {
         object.setUrl("platform/acme");
 
         target = new TargetBean();
-        target.setObjectType("post");
+        target.setObjectType(ObjectType.POST);
         target.setDisplayName("145efqdrezrf12qsdf");
         target.setActorBean(actor2);
 
@@ -65,7 +65,7 @@ public class StatisticsTestCase extends AbstractTestCase {
         stats.setContext(context);
         stats.setObject(object);
         stats.setTarget(target);
-        stats.setVerb("like");
+        stats.setVerb(VerbType.LIKE);
 
         ConnectionManager.getInstance().getDB().getCollection(StatisticsService.M_STATISTICS).drop();
 
@@ -77,7 +77,7 @@ public class StatisticsTestCase extends AbstractTestCase {
     public void testAddEntry() throws Exception {
 
 
-        statisticsService.addEntry(stats);
+        statisticsService.insert(stats);
 
         assertEquals(statisticsService.count(0),1);
 

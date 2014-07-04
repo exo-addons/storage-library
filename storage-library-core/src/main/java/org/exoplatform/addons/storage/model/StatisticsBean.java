@@ -15,7 +15,7 @@ public class StatisticsBean {
 
     private ActorBean actor;
 
-    private String verb;
+    private VerbType verb;
 
     private ObjectBean object;
 
@@ -31,11 +31,11 @@ public class StatisticsBean {
         this.actor = actor;
     }
 
-    public String getVerb() {
+    public VerbType getVerb() {
         return verb;
     }
 
-    public void setVerb(String verb) {
+    public void setVerb(VerbType verb) {
         this.verb = verb;
     }
 

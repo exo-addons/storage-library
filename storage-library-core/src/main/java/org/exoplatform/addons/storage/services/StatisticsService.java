@@ -14,12 +14,13 @@ public interface StatisticsService {
 
     public void cleanupStatistics(long timestamp) throws Exception;
 
-    public int count (long timestamp) throws Exception;;
+    public StatisticsBean insert(StatisticsBean statisticsBean) throws Exception;
 
+    public StatisticsBean update (StatisticsBean statisticsBean, String id) throws Exception;
 
-    public StatisticsBean addEntry(ActorBean actor, String verb, ObjectBean object, TargetBean target, ContextBean context) throws Exception;
+    public List<StatisticsBean> filter (StatisticsBean statisticsBean) throws Exception;
 
-    public StatisticsBean addEntry(StatisticsBean statisticsBean) throws Exception;
+    public int count (long timestamp) throws Exception;
 
     public void export(List<StatisticsBean> statistics, String format) throws Exception;
 

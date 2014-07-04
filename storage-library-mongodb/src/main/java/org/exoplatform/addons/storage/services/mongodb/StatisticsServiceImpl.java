@@ -4,6 +4,7 @@ import com.mongodb.*;
 import org.exoplatform.addons.storage.listener.ConnectionManager;
 import org.exoplatform.addons.storage.model.*;
 import org.exoplatform.addons.storage.services.StatisticsService;
+import org.exoplatform.addons.storage.utils.StatisticUtils;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.output.Format;
@@ -27,10 +28,6 @@ import java.util.logging.Level;
 public class StatisticsServiceImpl implements StatisticsService {
 
     private static Logger LOG = Logger.getLogger(StatisticsServiceImpl.class.getName());
-
-    private String exportLocation = System.getProperty("java.io.tmpdir");
-
-    private String importLocation;
 
     private DB db() {
 
@@ -71,30 +68,7 @@ public class StatisticsServiceImpl implements StatisticsService {
     }
 
     @Override
-    public StatisticsBean addEntry(ActorBean actor, String verb, ObjectBean object, TargetBean target, ContextBean context) {
-
-        DBCollection coll = db().getCollection(M_STATISTICS);
-
-        BasicDBObject doc = new BasicDBObject();
-
-        doc.put("timestamp", System.currentTimeMillis());
-
-        doc.put("actor", actor);
-        doc.put("verb", verb);
-        doc.put("object", object);
-        doc.put("target", target);
-        doc.put("context", context);
-
-        doc.put("isPrivate", false);
-
-        //--- add new line to the dababase (what's the difference with save() method)
-        coll.insert(doc);
-
-        return null;
-    }
-
-    @Override
-    public StatisticsBean addEntry(StatisticsBean statisticsBean) {
+    public StatisticsBean insert(StatisticsBean statisticsBean) {
 
         DBCollection coll = db().getCollection(M_STATISTICS);
 
@@ -105,14 +79,14 @@ public class StatisticsServiceImpl implements StatisticsService {
         //--- Persist an Actor Bean
         BasicDBObject actor = new BasicDBObject();
 
-        actor.put("objectType",statisticsBean.getActor().getObjectType());
+        actor.put("objectType",statisticsBean.getActor().getObjectType().name());
         actor.put("userName",statisticsBean.getActor().getUserName());
         doc.put("actor",actor);
 
         /** FIN */
 
         //--- persist the verb
-        doc.put("verb", statisticsBean.getVerb());
+        doc.put("verb", statisticsBean.getVerb().name());
 
 
         //--- Persist the Object Bean
@@ -132,7 +106,7 @@ public class StatisticsServiceImpl implements StatisticsService {
 
             BasicDBObject target = new BasicDBObject();
 
-            target.put("objectType",statisticsBean.getTarget().getObjectType());
+            target.put("objectType",statisticsBean.getTarget().getObjectType().name());
             target.put("displayName",statisticsBean.getTarget().getDisplayName());
             //TODO : Bean Actors not serializable, add a method to do it
             //target.put("actorBean",statisticsBean.getActor());
@@ -165,6 +139,19 @@ public class StatisticsServiceImpl implements StatisticsService {
     }
 
     @Override
+    public StatisticsBean update (StatisticsBean statisticsBean, String id) {
+
+        return null;
+    }
+
+    @Override
+    public List<StatisticsBean> filter (StatisticsBean statisticsBean) throws Exception {
+
+        return null;
+
+    }
+
+    @Override
     public int count (long timestamp) throws Exception {
 
         DBCollection coll = db().getCollection(M_STATISTICS);
@@ -187,11 +174,11 @@ public class StatisticsServiceImpl implements StatisticsService {
 
         if (format.equalsIgnoreCase("json")) {
 
-            json(statistics);
+            StatisticUtils.json(statistics);
 
         } else if (format.equalsIgnoreCase("xml")) {
 
-            xml(statistics);
+            StatisticUtils.xml(statistics);
 
         } else {
 
@@ -199,96 +186,5 @@ public class StatisticsServiceImpl implements StatisticsService {
 
         }
     }
-
-    /**
-     *
-     * @param statistics
-     */
-    private void xml (List<StatisticsBean> statistics) {
-        //--- build the xml structure
-        Document doc = structure(statistics);
-
-        //--- Generate the xml file
-        XMLOutputter outputter = null;
-
-        long timestamp = System.currentTimeMillis() / 1000;
-
-        try {
-
-            outputter = new XMLOutputter(Format.getPrettyFormat());
-
-            outputter.output(doc, new FileWriter(exportLocation+"/statistics-"+timestamp+".xml"));
-
-        } catch (IOException IOE) {
-
-            LOG.severe(IOE.getMessage());
-
-        }
-    }
-
-    /**
-     *
-     * @param statistics
-     */
-    private void json (List<StatisticsBean> statistics) {
-
-        FileWriter file = null;
-
-        long timestamp = System.currentTimeMillis() / 1000;
-
-        try {
-
-            file = new FileWriter(exportLocation+"/statistics-"+timestamp+".json");
-
-            file.write(StatisticsBean.statisticstoJSON(statistics));
-
-            file.flush();
-
-            file.close();
-
-        } catch (IOException IOE) {
-
-            LOG.severe(IOE.getMessage());
-        }
-    }
-
-    /**
-     *
-     * @param statistics
-     * @return
-     */
-    private Document structure(List<StatisticsBean> statistics) {
-
-        Document doc = new Document();
-
-        Element statsListElement = new Element("statistics");
-
-        Element statisticElement = null;
-
-        for (StatisticsBean statisticsBean : statistics) {
-
-            statisticElement = new Element("statistic");
-
-            statisticElement.setAttribute("verb",statisticsBean.getVerb());
-
-            Element actorElement = new Element("actor");
-
-            actorElement.addContent(new Element("objectType").addContent(statisticsBean.getActor().getObjectType()));
-
-            actorElement.addContent(new Element("userName").addContent(statisticsBean.getActor().getUserName()));
-
-            statsListElement.addContent(statisticElement);
-
-        }
-
-        doc.addContent(statsListElement);
-
-        return doc;
-
-    }
-
-
-
-
 
 }
