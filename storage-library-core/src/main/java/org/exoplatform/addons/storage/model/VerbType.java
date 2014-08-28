@@ -7,6 +7,6 @@ import java.io.Serializable;
  */
 public enum VerbType implements Serializable {
 
-    UPLOAD, COMMENT, LIKE, SHARE, ADD, READ, ASSIGN;
+    UPLOAD, COMMENT, LIKE, SHARE, ADD, READ, ASSIGN, SAVE;
 
 }

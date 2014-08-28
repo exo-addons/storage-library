@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(propOrder = { "objectType", "displayName", "content", "spentTime", "url", "link"})
 public class ObjectBean {
 
-    private String objectType = "";
+    private ObjectType objectType = ObjectType.ACTIVITY;
     private String displayName = "";
     private String content = "";
     private float spentTime ;
@@ -23,11 +23,11 @@ public class ObjectBean {
         return spentTime;
     }
 
-    public String getObjectType() {
+    public ObjectType getObjectType() {
         return objectType;
     }
 
-    public void setObjectType(String objectType) {
+    public void setObjectType(ObjectType objectType) {
         this.objectType = objectType;
     }
 

@@ -47,7 +47,7 @@ public class StatisticsTestCase extends AbstractTestCase {
         context.setValue("intranet");
 
         object = new ObjectBean();
-        object.setObjectType("page");
+        object.setObjectType(ObjectType.SPACE);
         object.setDisplayName("");
         object.setSpentTime(0.12f);
         object.setContent("Validating the stat module");
