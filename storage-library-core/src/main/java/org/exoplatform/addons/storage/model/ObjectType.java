@@ -7,5 +7,5 @@ import java.io.Serializable;
  */
 public enum ObjectType implements Serializable {
 
-    PERSON, FILE, SPACE, PROCESS, POST, COMMENT, ACTIVITY, TASK, EVENT, CONNECTION;
+    PERSON, FILE, SPACE, PROCESS, POST, COMMENT, ACTIVITY, TASK, EVENT, CONNECTION, ACTIVITIES_STREAM;
 }

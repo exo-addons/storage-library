@@ -1,6 +1,8 @@
 package org.exoplatform.addons.storage.services.mongodb;
 
+import com.google.gson.Gson;
 import com.mongodb.*;
+import com.mongodb.util.JSON;
 import org.exoplatform.addons.storage.listener.ConnectionManager;
 import org.exoplatform.addons.storage.model.*;
 import org.exoplatform.addons.storage.services.StatisticsService;
@@ -92,13 +94,13 @@ public class StatisticsServiceImpl implements StatisticsService {
         //--- Persist the Object Bean
         BasicDBObject object = new BasicDBObject();
 
-        object.put("objectType",statisticsBean.getObject().getObjectType());
+        object.put("objectType",statisticsBean.getObject().getObjectType().name());
         object.put("displayName",statisticsBean.getObject().getDisplayName());
         object.put("content",statisticsBean.getObject().getContent());
         object.put("spentTime", statisticsBean.getObject().getSpentTime());
         object.put("url",statisticsBean.getObject().getUrl());
         object.put("link",statisticsBean.getObject().getLink());
-        doc.put("object", actor);
+        doc.put("object", object);
         /** FIN */
 
         //--- Persist the the Target Bean
@@ -108,8 +110,12 @@ public class StatisticsServiceImpl implements StatisticsService {
 
             target.put("objectType",statisticsBean.getTarget().getObjectType().name());
             target.put("displayName",statisticsBean.getTarget().getDisplayName());
-            //TODO : Bean Actors not serializable, add a method to do it
-            //target.put("actorBean",statisticsBean.getActor());
+
+            //---Manage Actor
+            BasicDBObject targetActor = new BasicDBObject();
+            targetActor.put("objectType",statisticsBean.getTarget().getActorBean().getObjectType().name());
+            targetActor.put("userName",statisticsBean.getTarget().getActorBean().getUserName());
+            target.put("actor",targetActor);
 
             doc.put("target", target);
         }
@@ -127,8 +133,6 @@ public class StatisticsServiceImpl implements StatisticsService {
             doc.put("context", context);
 
         }
-
-
 
         doc.put("isPrivate", false);
 
