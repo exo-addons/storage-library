@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
     <parent>
@@ -9,8 +10,8 @@
         <relativePath />
     </parent>
     <groupId>org.exoplatform.addons.storage</groupId>
-    <artifactId>storage-api</artifactId>
-    <version>0.1.2-SNAPSHOT</version>
+    <artifactId>storage-library</artifactId>
+    <version>0.1.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Storage API</name>
     <description>Storage API Capabilities</description>
@@ -25,23 +26,23 @@
         </developer>
     </developers>
     <modules>
-        <module>exo-storage-api-mongodb</module>
-        <module>exo-storage-api-core</module>
-        <module>exo-storage-api-connector</module>
-        <module>exo-storage-api-pkg</module>
+        <module>storage-library-mongodb</module>
+        <module>storage-library-core</module>
+        <module>storage-library-connector</module>
+        <module>storage-library-pkg</module>
     </modules>
     <scm>
         <connection>scm:git:git://github.com/kmenzli/storage-api.git</connection>
         <developerConnection>scm:git:git@github.com:kmenzli/storage-api.git</developerConnection>
         <url>https://github.com/kmenzli/exo-persistence-api</url>
-      <tag>HEAD</tag>
-  </scm>
+    </scm>
     <properties>
         <!-- 3rd party libraries versions -->
         <commons-lang3.version>3.1</commons-lang3.version>
         <exoplatform.version>4.0.6</exoplatform.version>
         <org.exoplatform.portal.version>3.5.10.Final</org.exoplatform.portal.version>
         <javax.enterprise.cdi.version>1.0-SP4</javax.enterprise.cdi.version>
+        <org.gson.version>1.7.1</org.gson.version>
         <!-- The apache tomcat version to bundle -->
         <org.apache.tomcat.version>7.0.42</org.apache.tomcat.version>
         <!-- The MongoDB API -->
@@ -53,17 +54,17 @@
             <!-- Inner Persistence API -->
             <dependency>
                 <groupId>org.exoplatform.addons.storage</groupId>
-                <artifactId>exo-storage-api-mongodb</artifactId>
+                <artifactId>storage-library-mongodb</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.exoplatform.addons.storage</groupId>
-                <artifactId>exo-storage-api-core</artifactId>
+                <artifactId>storage-library-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.exoplatform.addons.storage</groupId>
-                <artifactId>exo-storage-api-connector</artifactId>
+                <artifactId>storage-library-connector</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <!-- FIN -->
@@ -98,6 +99,11 @@
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
                 <version>${commons-lang3.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.code.gson</groupId>
+                <artifactId>gson</artifactId>
+                <version>${org.gson.version}</version>
             </dependency>
             <!-- Import versions from platform project -->
             <dependency>
