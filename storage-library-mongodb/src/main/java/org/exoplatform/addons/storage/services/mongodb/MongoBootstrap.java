@@ -20,14 +20,6 @@
 package org.exoplatform.addons.storage.services.mongodb;
 
 import com.mongodb.*;
-import de.flapdoodle.embed.mongo.MongodExecutable;
-import de.flapdoodle.embed.mongo.MongodProcess;
-import de.flapdoodle.embed.mongo.MongodStarter;
-import de.flapdoodle.embed.mongo.config.IMongodConfig;
-import de.flapdoodle.embed.mongo.config.MongodConfigBuilder;
-import de.flapdoodle.embed.mongo.config.Net;
-import de.flapdoodle.embed.mongo.distribution.Version;
-import de.flapdoodle.embed.process.runtime.Network;
 import org.exoplatform.addons.storage.utils.PropertyManager;
 
 import java.io.IOException;
@@ -36,8 +28,6 @@ import java.util.logging.Logger;
 
 public class MongoBootstrap {
 
-    private static MongodExecutable mongodExe;
-    private static MongodProcess mongod;
     private Mongo m;
     private DB db;
     private static Logger log = Logger.getLogger(MongoBootstrap.class.getName());
@@ -45,14 +35,6 @@ public class MongoBootstrap {
     private Mongo mongo() {
         if (m==null) {
             try {
-                if (PropertyManager.PROPERTY_SERVER_TYPE_EMBED.equals(PropertyManager.getProperty(PropertyManager.PROPERTY_SERVER_TYPE))) {
-                    log.warning("WE WILL NOW USE MONGODB IN EMBED MODE...");
-                    log.warning("BE AWARE...");
-                    log.warning("EMBED MODE SHOULD NEVER BE USED IN PRODUCTION!");
-                    // TODO : Embed mode should be separated, to avoid deploying flopdoodle artifacts in prod env
-                    setupEmbedMongo();
-
-                }
                 MongoOptions options = new MongoOptions();
                 options.connectionsPerHost = 200;
                 options.connectTimeout = 60000;
@@ -73,10 +55,6 @@ public class MongoBootstrap {
 
     public void close() {
         try {
-            if (mongod != null) {
-                mongod.stop();
-                mongodExe.stop();
-            }
             if (m!=null) {
                 m.close();
             }
@@ -116,18 +94,6 @@ public class MongoBootstrap {
         }
         return db;
   }
-
-    private static void setupEmbedMongo() throws IOException {
-
-        MongodStarter runtime = MongodStarter.getDefaultInstance();
-        int port = Integer.parseInt(PropertyManager.getProperty(PropertyManager.PROPERTY_SERVER_PORT));
-        IMongodConfig mongodConfig = new MongodConfigBuilder()
-                .version(Version.Main.V2_6)
-                .net(new Net(port, Network.localhostIsIPv6()))
-                .build();
-        mongodExe = runtime.prepare(mongodConfig);
-        mongod = mongodExe.start();
-    }
 
   public void initCappedCollection(String name, int size)
   {

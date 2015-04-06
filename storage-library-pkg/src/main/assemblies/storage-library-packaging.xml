@@ -76,24 +76,6 @@
         <dependencySet>
             <outputDirectory>/storage-api/lib</outputDirectory>
             <includes>
-                <include>de.flapdoodle.embed:de.flapdoodle.embed.mongo:jar</include>
-            </includes>
-            <scope>provided</scope>
-            <outputFileNameMapping>${artifact.artifactId}-${artifact.baseVersion}.${artifact.extension}</outputFileNameMapping>
-            <useProjectArtifact>false</useProjectArtifact>
-        </dependencySet>
-        <dependencySet>
-            <outputDirectory>/storage-api/lib</outputDirectory>
-            <includes>
-                <include>de.flapdoodle.embed:de.flapdoodle.embed.process:jar</include>
-            </includes>
-            <scope>provided</scope>
-            <outputFileNameMapping>${artifact.artifactId}-${artifact.baseVersion}.${artifact.extension}</outputFileNameMapping>
-            <useProjectArtifact>false</useProjectArtifact>
-        </dependencySet>
-        <dependencySet>
-            <outputDirectory>/storage-api/lib</outputDirectory>
-            <includes>
                 <include>com.google.code.gson:gson:jar</include>
             </includes>
             <scope>provided</scope>
