@@ -11,7 +11,7 @@
     </parent>
     <groupId>org.exoplatform.addons.storage</groupId>
     <artifactId>storage-library</artifactId>
-    <version>0.1.1-SNAPSHOT</version>
+    <version>1.0.x-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Storage API</name>
     <description>Storage API Capabilities</description>
@@ -39,8 +39,8 @@
     <properties>
         <!-- 3rd party libraries versions -->
         <commons-lang3.version>3.1</commons-lang3.version>
-        <exoplatform.version>4.0.6</exoplatform.version>
-        <org.exoplatform.portal.version>3.5.10.Final</org.exoplatform.portal.version>
+        <exoplatform.version>4.1.0</exoplatform.version>
+        <org.exoplatform.portal.version>3.5.13-PLF</org.exoplatform.portal.version>
         <javax.enterprise.cdi.version>1.0-SP4</javax.enterprise.cdi.version>
         <org.gson.version>1.7.1</org.gson.version>
         <!-- The apache tomcat version to bundle -->

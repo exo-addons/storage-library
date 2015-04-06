@@ -24,7 +24,7 @@
     <parent>
         <artifactId>storage-library</artifactId>
         <groupId>org.exoplatform.addons.storage</groupId>
-        <version>0.1.2-SNAPSHOT</version>
+        <version>1.0.x-SNAPSHOT</version>
     </parent>
     <artifactId>storage-library-core</artifactId>
     <packaging>jar</packaging>
