@@ -35,6 +35,7 @@
         <connection>scm:git:git://github.com/kmenzli/storage-api.git</connection>
         <developerConnection>scm:git:git@github.com:kmenzli/storage-api.git</developerConnection>
         <url>https://github.com/kmenzli/exo-persistence-api</url>
+        <tag>HEAD</tag>
     </scm>
     <properties>
         <!-- 3rd party libraries versions -->
